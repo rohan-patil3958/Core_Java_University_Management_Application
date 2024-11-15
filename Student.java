@@ -9,6 +9,7 @@ class Student
     private List<Course>courseList;
     private Map<Course,Integer> attendence;
     private Map<Course,String> grades;
+    private Department department;
 
     public Student(int SId,String name)
     {
@@ -96,6 +97,14 @@ class Student
         {
             System.out.print(course.getCourseName()+" : "+grades.get(course)+" ");
         }
+        if(department!=null)
+        {
+            System.out.println("Department is :"+department.getDeptName());
+        }
+        else
+        {
+                System.out.println("Department not assigned");
+        }
         System.out.println();
     }
         
@@ -111,5 +120,16 @@ class Student
     {
         return courseList;
     }
+    public void setDepartment(Department department) {
+        this.department = department;
+    }
+
+    // Method to get the department of the student
+    public Department getDepartment() {
+        return department;
+    }
+
+  
+
 
 }

@@ -38,13 +38,29 @@ public class University
         facultys.add(faculty);
     }
 
-    public void getStudent()
-    {   System.out.println("Displaying Student Details");
-        for(Student stshow:students)
-        {
-            System.out.println(stshow.getName());
+    public void getStudent() {
+        System.out.println("\nDisplaying Student Details:");
+        System.out.printf("%-10s %-20s %-15s%n", "Student Id\t", "Student Name\t", "Department");
+        System.out.println("------------------------------------------------------");
+    
+        for (Student student : students) {
+            String departmentName = (student.getDepartment() != null) ? student.getDepartment().getDeptName() : "No Department";
+            System.out.printf("%-10s %-20s %-15s%n","     " +student.getSId(),"      "+ student.getName(),"      "+ departmentName);
+    
+            if (student.getCoList().isEmpty()) {
+                System.out.println("   No courses registered.");
+            } else {
+                System.out.println("  \n Courses:");
+                for (Course course : student.getCoList()) {
+                    System.out.println("      - " + course); // Assuming Course.toString() gives course details.
+                }
+            }
+            System.out.println("------------------------------------------------------");
+            System.out.println();
         }
     }
+    
+    
 
     public List<Department> getDept()
     {
@@ -66,6 +82,15 @@ public class University
                 System.out.println("Student: " + student.getName() + ", Grade: " + student.getGrades().get(course));
             }
         }
+    }
+    public void addStudentToDepartment(Student student, Department department)
+    {
+        department.addStudent(student); 
+        System.out.println("Student Added Successfully"); // Adds student to the department
+    }
+    public void show()
+    { 
+        
     }
     
 }

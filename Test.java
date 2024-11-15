@@ -122,7 +122,7 @@ public class Test
                         {
                         System.out.println("Welcome!!");
                         System.out.println("Enter choice to Perfrom Task");
-                        System.out.println("1.To Add Student\t2.To Add Department\t3.To Add Faculty");
+                        System.out.println("1.To Add Department\t2.To Add Student\t3.To Add Faculty");
                         System.out.println("4.To View Students\t5.To View Departments\t6.To View Faculty");
 
                         selection=sc.nextInt();
@@ -132,56 +132,77 @@ public class Test
                         }
 
                         switch (selection) {
-                            case 1:     
-                                        sc.nextLine();
-                                        System.out.println("Enter Student ID");
-                                        int icol=sc.nextInt();
-                                        
-                                        System.out.println("Enter Student Name");
-                                        String scol=sc.nextLine();
+                            case 1:   
 
-                                        sc.nextLine();
+                                      System.out.println("You are in Department Add Tab\n\n");
+                                      System.out.println("Enter Department Id");
+                                      int did=sc.nextInt();
+                                      sc.nextLine();
 
-                                        Student std = new Student(icol, scol);
+                                      System.out.println("Enter Department Name");
+                                      String dname=sc.nextLine();
 
-                                        System.out.println("Enroll Courses to The Student");
-                                        System.out.println("How many course you want to add student");
-                                        int cno=sc.nextInt();
-                                        sc.nextLine();
-                                     for(int i=1;i<=cno;i++)
+                            
+                                      Department d = new Department(did,dname);
+                                      boolean res1=un.addDept(d);
+                                      if(res1)
                                      {
-                                        System.out.println("Enter Course Id");
-                                        int coid=sc.nextInt();
-                                        sc.nextLine();
-                                        System.out.println("Enter Course Name");
-                                        String coursename=sc.nextLine();
-
-                                        Course course = new Course(coid, coursename);
-                                        std.addCourse(course);
+                                         System.out.println("Deparment Added Successfully");
                                      }
-                                     un.addStudent(std);
+                                    else
+                                  {
+                                          System.out.println("DepartMent Already Exist");
+                                  }
                                         
                                 break;
                         case 2:
-                                    System.out.println("You are in Department Add Tab\n\n");
-                                    System.out.println("Enter Department Id");
-                                    int did=sc.nextInt();
-                                    sc.nextLine();
+                        sc.nextLine();
+                        System.out.println("Enter Student ID");
+                        int icol=sc.nextInt();
+                        sc.nextLine();
+                        System.out.println("Enter Student Name");
+                        String scol=sc.nextLine();
 
-                                    System.out.println("Enter Department Name");
-                                    String dname=sc.nextLine();
+                        Student std = new Student(icol, scol);
 
-                                    
-                                     Department d = new Department(did,dname);
-                                     boolean res1=un.addDept(d);
-                                    if(res1)
-                                    {
-                                        System.out.println("Deparment Added Successfully");
-                                    }
-                                    else
-                                    {
-                                        System.out.println("DepartMent Already Exist");
-                                    }
+                        System.out.println("Enroll Courses to The Student");
+                        System.out.println("How many course you want to add student");
+                        int cno=sc.nextInt();
+                        sc.nextLine();
+                     for(int i=1;i<=cno;i++)
+                     {
+                        System.out.println("Enter Course Id");
+                        int coid=sc.nextInt();
+                        sc.nextLine();
+                        System.out.println("Enter Course Name");
+                        String coursename=sc.nextLine();
+
+                        Course course = new Course(coid, coursename);
+                        std.addCourse(course);
+                     }
+                     List<Department> departments = un.getDept();
+                     System.out.println("Enter Department");
+                     for(int i=0;i<departments.size();i++)
+                    {
+                        System.out.println(i+" "+departments.get(i).getDeptName());
+                    }
+                    int deptIndex=sc.nextInt();
+                    sc.nextLine();
+
+                    if(deptIndex<0 || deptIndex>departments.size())
+                    {
+                        System.out.println("Invalid Selection");
+                    }
+                    else
+                    {
+                        Department selectedDept = departments.get(deptIndex);
+
+                       un.addStudentToDepartment(std, selectedDept);
+                       std.setDepartment(selectedDept);
+
+                    }
+
+                     un.addStudent(std);
                                     break;
                             
                             case 3:
@@ -192,13 +213,13 @@ public class Test
 
                                     System.out.println("Enter Name of Faculty");
                                    String dpname= sc.nextLine();
-                                    List<Department> departments = un.getDept();
+                                    departments = un.getDept();
                                     System.out.println("Select Department");
                                     for(int i=0;i<departments.size();i++)
                                     {
                                         System.out.println(i+" "+departments.get(i).getDeptName());
                                     }
-                                    int deptIndex=sc.nextInt();
+                                    deptIndex=sc.nextInt();
                                     sc.nextLine();
 
                                     if(deptIndex<0 || deptIndex>departments.size())
@@ -218,7 +239,9 @@ public class Test
                                     }
                                     break;
                             case 4:
-                                    un.getStudent();
+                                    
+                                  un.getStudent();
+                                
                                 break;
                             default:
                                 break;
