@@ -25,5 +25,9 @@ public class Course
         public String toString() {
             return "Course ID: " + courseId + ", Course Name: " + courseName;
         }
+        public int getCourseId()
+        {
+            return courseId;
+        }
 
 }

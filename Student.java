@@ -2,6 +2,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.HashMap;
+
 class Student
 {
     private int SId;
@@ -11,6 +12,10 @@ class Student
     private Map<Course,String> grades;
     private Department department;
 
+    public  Student()
+    {
+
+    }
     public Student(int SId,String name)
     {
         this.SId=SId;
@@ -34,23 +39,13 @@ class Student
             }
     }
 
-    public void removeCourse(Course course)
-    {
-        if(courseList.contains(course))
-        {
-            courseList.remove(course);
-            attendence.remove(course);
-            grades.remove(course);
-        }
-        else
-        {
-            System.out.println("Student is not present");
-        }
-    }
-
-    public Map<Course , String> getGrades()
+    public Map< Course,String> getGrades()
     {
         return grades;
+    }
+    public Map<Course , Integer> getAttendence()
+    {
+        return attendence;
     }
 
     public void setAttendence(Course course,int Presenty)
@@ -78,7 +73,7 @@ class Student
     }
 
     public void displayStudentInfo()
-    {
+    {   
         System.out.println("ID of student:- "+SId);
         System.out.println("Name of student:- "+name);
         System.out.println("Enrolled Courses:- ");

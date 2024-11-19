@@ -3,16 +3,15 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-
-public class Authentication
-{
+public class FacAuthentication 
+{   
 
       void createAc(String userName,String Password) throws IOException
       { 
         
             boolean flag=true;
         
-            FileReader fr = new FileReader("F:\\UniversityMgmt\\Credentials.txt");
+            FileReader fr = new FileReader("F:\\UniversityMgmt\\FacCredentials.txt");
             BufferedReader br = new BufferedReader(fr);
 
             String data;
@@ -30,7 +29,7 @@ public class Authentication
         if(flag)
 
         {
-            FileWriter fw = new FileWriter("F:\\UniversityMgmt\\Credentials.txt",true);
+            FileWriter fw = new FileWriter("F:\\UniversityMgmt\\FacCredentials.txt",true);
             BufferedWriter bw = new BufferedWriter(fw);
 
             bw.write(userName+":"+Password);
@@ -48,10 +47,10 @@ public class Authentication
 
       }
 
-        public String login(String uname,String upass) throws IOException
+        public String  login(String uname,String upass) throws IOException
       {
 
-        FileReader fr = new FileReader("F:\\UniversityMgmt\\Credentials.txt");
+        FileReader fr = new FileReader("F:\\UniversityMgmt\\FacCredentials.txt");
         BufferedReader br = new BufferedReader(fr);
 
         String data;
@@ -60,9 +59,10 @@ public class Authentication
             String[] parts=data.split(":");
             if(parts.length>0 && parts[0].equals(uname) && parts[1].equals(upass))
             {   
-                return "Administration";
+                return "fac";
             }
         }
         return "false";
       }
 }
+

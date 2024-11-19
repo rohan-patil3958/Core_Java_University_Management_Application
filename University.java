@@ -5,7 +5,7 @@ public class University
     private List<Student> students;
     private List<Department> departments;
     private List<Faculty> facultys;
-
+    public University(){}
     public University(String UniversityName)
     {
         this.UniversityName = UniversityName;
@@ -59,6 +59,10 @@ public class University
             System.out.println();
         }
     }
+    public List<Student> getStInfo()
+    {
+        return students;
+    }
     
     
 
@@ -66,10 +70,29 @@ public class University
     {
         return departments;
     }
-    
-    public List<Faculty> getFaculty()
+    public void ShowDept()
+    {   
+        System.out.println("------------------------------------------------------");
+        System.out.println("Department ID\tDepartment Name");
+        System.out.println("------------------------------------------------------");
+        for(Department deptInfo:departments)
+        {
+            System.out.println("   "+deptInfo.getDeptId()+"\t\t    "+deptInfo.getDeptName());
+        }
+        System.out.println("------------------------------------------------------");
+        System.out.println();
+    }
+    public void getFaculty()
     {
-        return facultys;
+        System.out.println("------------------------------------------------------");
+        System.out.println("Faculty Id\tFaculty Name\tFaculty Department");
+        System.out.println("------------------------------------------------------");
+       for(Faculty finfo :facultys)
+       {
+            System.out.println("     "+finfo.getFId()+" \t\t    "+finfo.getFName()+"\t\t      "+finfo.getDepartment().getDeptName());
+       }
+       System.out.println("------------------------------------------------------");
+       System.out.println();
     }
     public String getUnName()
     {
@@ -83,11 +106,17 @@ public class University
             }
         }
     }
-    public void addStudentToDepartment(Student student, Department department)
-    {
-        department.addStudent(student); 
-        System.out.println("Student Added Successfully"); // Adds student to the department
+    public void addStudentToDepartment(Student student, Department department) {
+        if (!departments.contains(department)) {
+            System.out.println("DEBUG: Department not found in university.");
+            return;
+        }
+        department.addStudent(student); // Add student to department
+        students.add(student);          // Keep a central record of students
+        System.out.println("Student added to department and university.");
     }
+    
+    
     public void show()
     { 
         
