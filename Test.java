@@ -247,86 +247,93 @@ public class Test {
                                 System.out.println("Credentials Mismatch!");
                             }
                             break;
-                        case 2:
+                            case 2: // Login Faculty
                             List<Department> departments = un.getDept();
                             System.out.println("Select Department:");
                             for (int i = 0; i < departments.size(); i++) {
                                 System.out.println((i + 1) + ". " + departments.get(i).getDeptName());
                             }
-
+                        
                             int deptIndex = sc.nextInt() - 1; // Assume user enters valid input
                             sc.nextLine(); // Consume newline character
-
+                        
                             if (deptIndex >= 0 && deptIndex < departments.size()) {
                                 Department selectedDept = departments.get(deptIndex);
                                 System.out.println("Enter Username:");
                                 cid = sc.nextLine();
-
+                        
                                 System.out.println("Enter Password:");
                                 cpass = sc.nextLine();
-
+                        
+                                // Authentication for faculty login
                                 FacAuthentication auth2 = new FacAuthentication();
                                 res = auth2.login(cid, cpass);
-
+                        
                                 if (res.equals("fac")) {
-                                    Faculty loggedInFaculty = new Faculty();
-                                    loggedInFaculty.setDepartment(selectedDept); // Set the selected department for this
-                                                                                 // faculty
-
-                                    System.out
-                                            .println("Welcome to " + selectedDept.getDeptName() + " Faculty Module\n");
-                                    System.out.println("1. To View Students\t2. Set Attendance\t3.Assign");
-                                    selection = sc.nextInt();
-
-                                    switch (selection) {
-                                        case 1:
-                                            loggedInFaculty.MeStudents();
-                                            break;
-                                        case 2:// To Assign attendance
-
-                                            sc.nextLine();
-                                            System.out.println("Enter Student id to update attendance");
-                                            int studid = sc.nextInt();
-                                            sc.nextLine();
-                                            System.out.println("Enter Course Name");
-                                            String coname = sc.nextLine();
-                                            System.out.println("Enter Attendence");
-                                            int atten = sc.nextInt();
-                                            break;
-
-                                        case 3: // Assign Grade
-                                            sc.nextLine(); // Consume newline character
-                                            System.out.println("Enter Student ID to assign grade:");
-                                            int studentId = sc.nextInt();
-                                            sc.nextLine(); // Consume newline character
-
-                                            // Now get the course name
-                                            System.out.println("Enter Course Name:");
-                                            String courseName = sc.nextLine();
-
-                                            // Now get the grade
-                                            System.out.println("Enter grade (A to D):");
-                                            String grade = sc.nextLine();
-
-                                            // Now call the Faculty method to assign the grade
-                                            if (selectedDept != null) {
-                                                loggedInFaculty = new Faculty(); // Assuming faculty is already logged
-                                                                                 // in and selectedDept is set
-                                                loggedInFaculty.assignGradeToStudent(studentId, courseName, grade,
-                                                        selectedDept);
-                                            } else {
-                                                System.out.println("No department selected.");
+                                    // Assume the Faculty exists and is authenticated successfully
+                                    Faculty loggedInFaculty = new Faculty(); // Get the actual faculty from the university by ID
+                                    if (loggedInFaculty != null) {
+                                        loggedInFaculty.setDepartment(selectedDept); // Set the department after login
+                        
+                                        boolean isAuthenticated = true;
+                                        while (isAuthenticated) {
+                                            System.out.println(
+                                                    "Welcome to " + selectedDept.getDeptName() + " Faculty Module\n");
+                                            System.out.println("1. To View Students");
+                                            System.out.println("2. Set Attendance");
+                                            System.out.println("3. Assign Grade");
+                                            System.out.println("0. Exit Faculty Menu"); // Added Exit option
+                        
+                                            selection = sc.nextInt();
+                        
+                                            switch (selection) {
+                                                case 1:
+                                                    loggedInFaculty.MeStudents(); // View students in this department
+                                                    break;
+                        
+                                                case 2: // To Assign Attendance
+                                                    sc.nextLine(); // Consume newline character
+                                                    System.out.println("Enter Student ID to assign Attendance:");
+                                                    int studentId = sc.nextInt();
+                                                    sc.nextLine(); // Consume newline character
+                        
+                                                    System.out.println("Enter Course Name:");
+                                                    String courseName = sc.nextLine();
+                        
+                                                    System.out.println("Enter Attendance Percentage:");
+                                                    int atten = sc.nextInt();
+                        
+                                                    // Assign attendance using the logged-in faculty
+                                                    loggedInFaculty.setAttendence(studentId, courseName, atten, selectedDept);
+                                                    break;
+                        
+                                                case 3: // Assign Grade
+                                                    sc.nextLine(); // Consume newline character
+                                                    System.out.println("Enter Student ID to assign grade:");
+                                                    studentId = sc.nextInt();
+                                                    sc.nextLine(); // Consume newline character
+                        
+                                                    System.out.println("Enter Course Name:");
+                                                    courseName = sc.nextLine();
+                        
+                                                    System.out.println("Enter grade (A to D):");
+                                                    String grade = sc.nextLine();
+                        
+                                                    // Assign grade using the logged-in faculty
+                                                    loggedInFaculty.assignGradeToStudent(studentId, courseName, grade, selectedDept);
+                                                    break;
+                                                case 0: // Exit Faculty Menu
+                                                    isAuthenticated = false; // Exit from the faculty menu
+                                                    System.out.println("Exiting Faculty Menu...");
+                                                    break;
+                                                
+                                                default:
+                                                    System.out.println("Invalid selection! Please try again.");
+                                                    break;
                                             }
-                                            break;
-
-                                        case 4:
-                                            selectedDept.show(1);
-
-                                            break;
-                                      
-                                        // Implement other cases
-                                        default:
-                                            System.out.println("Invalid selection!");
+                                        }
+                                    } else {
+                                        System.out.println("Faculty not found for the given credentials.");
                                     }
                                 } else {
                                     System.out.println("Credentials Mismatch!");
@@ -334,7 +341,7 @@ public class Test {
                             } else {
                                 System.out.println("Invalid department selection!");
                             }
-
+                            break;
                         default:
                             break;
                     }

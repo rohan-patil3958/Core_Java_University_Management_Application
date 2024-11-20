@@ -43,37 +43,43 @@ public class Faculty {
     public void MeStudents() {
         // Get the list of students in the department
         List<Student> std = department.getStud();
-
+    
         // Print the header for student details
         System.out.println("\nDisplaying Student Details:");
         System.out.printf("%-10s %-20s %-15s%n", "Student Id", "Student Name", "Department");
         System.out.println("------------------------------------------------------");
-
+    
         // Iterate through each student and display details
         for (Student student : std) {
             String departmentName = (student.getDepartment() != null) ? student.getDepartment().getDeptName() : "No Department";
-
+    
             // Print basic details of the student
             System.out.printf("%-10s %-20s %-15s%n", student.getSId(), student.getName(), departmentName);
-
+    
             // Fetch and display the student's courses and grades
             Map<Course, String> gradeMap = student.getGrades();
+            Map<Course, Integer> attendMap = student.getAttendence(); // Correct spelling here for 'attendance'
+    
             if (!student.getCoList().isEmpty()) {
                 System.out.println("\n  Courses and Grades:");
                 for (Course course : student.getCoList()) {
                     String grade = gradeMap.get(course); // Get grade for the course
-                    System.out.printf("      - %-20s %-30s Grade: %s%n",
-                            course.getCourseId(),
-                            course.getCourseName(),
-                            (grade != null ? grade : "No grade"));
+                    int attend = attendMap.get(course); // Correct spelling here for 'attendance'
+    
+                    System.out.printf("      - %-20s %-30s Grade: %-5s Attendance: %-5s%n",
+                    course.getCourseId(),
+                    course.getCourseName(), 
+                    (grade != null ? grade : "No grade"),
+                    (attend != 0 ? attend : "No Attendance")); /// Ensure attendance is displayed properly
                 }
             } else {
                 System.out.println("   No courses registered.");
             }
-
+    
             System.out.println("------------------------------------------------------");
         }
     }
+    
 
     /**
      * Update attendance for a student in a specific course.
@@ -81,20 +87,28 @@ public class Faculty {
      * @param course - Course object
      * @param attendence - Attendance value to be set
      */
-    public void setAttendence(int studentid, Course course, int attendence) {
-        // Find the student by ID within the department
+    public void setAttendence(int studentid, String coursename, int attendence,Department department) {
         Student student = department.findstudById(studentid);
 
         if (student != null) {
-            // Check if the student is enrolled in the given course
-            if (student.getCoList().contains(course)) {
-                student.setAttendence(course, attendence); // Update attendance
-                System.out.println("Attendance updated successfully for " + student.getSId());
+            // Find the course the student is enrolled in
+            Course course = null;
+            for (Course c : student.getCoList()) {
+                if (c.getCourseName().equals(coursename)) {
+                    course = c;
+                    break;
+                }
+            }
+
+            // If course is found, assign the grade
+            if (course != null) {
+                student.setAttendence(course, attendence); // Assign grade to the student
+                System.out.println("Attendence " + attendence + " assigned to " + student.getName() + " for " + course.getCourseName());
             } else {
-                System.out.println("Student not enrolled in the specified course");
+                System.out.println("Course not found for student: " + student.getName());
             }
         } else {
-            System.out.println("Student not found in department");
+            System.out.println("Student not found with ID: " + studentid);
         }
     }
 
@@ -130,4 +144,5 @@ public class Faculty {
             System.out.println("Student not found with ID: " + studentId);
         }
     }
+    
 }
