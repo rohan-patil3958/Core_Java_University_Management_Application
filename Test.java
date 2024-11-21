@@ -322,6 +322,9 @@ public class Test {
                                                     // Assign grade using the logged-in faculty
                                                     loggedInFaculty.assignGradeToStudent(studentId, courseName, grade, selectedDept);
                                                     break;
+
+                                              
+
                                                 case 0: // Exit Faculty Menu
                                                     isAuthenticated = false; // Exit from the faculty menu
                                                     System.out.println("Exiting Faculty Menu...");

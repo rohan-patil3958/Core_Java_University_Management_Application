@@ -1,5 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Department {
     private int DeptId; // Unique ID for the department
@@ -58,11 +60,19 @@ public class Department {
      * @return The student object if found, otherwise null.
      */
     public Student findstudById(int studentid) {
-        for (Student std : studadd) { // Loop through all students in the department
-            if (std.getSId() == studentid) { // Check if the ID matches
-                return std; // Return the matching student
-            }
-        }
-        return null; // Return null if no matching student is found
-    }
+       //Stream Api for code enhancement 
+        return studadd.stream()
+                        .filter(student->student.getSId()==studentid)
+                        .findFirst()
+                        .orElse(null);
+    //     for (Student std : studadd) { // Loop through all students in the department
+    //         if (std.getSId() == studentid) { // Check if the ID matches
+    //             return std; // Return the matching student
+    //         }
+    //     }
+    //     return null; // Return null if no matching student is found
+     }
+    
+
+    
 }
